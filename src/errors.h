@@ -22,18 +22,19 @@
 	SOFTWARE.
 */
 
-#ifndef __TABCONTOPPM__
-#define __TABCONTOPPM__
+#ifndef __ERRORS__
+#define __ERRORS__
 
-#include <tabCon.h>
+/* Enums */
+enum errors {
+	ERROR_NONE,
+	ERROR_EXTERNAL,
+	ERROR_IMAGE_NULL,
+	ERROR_HASH_STRING_LONG,
+	ERROR_UNKNOWN
+};
 
-#include "errors.h"
-
-enum errors tabConToPPM(
-	const char *filename,
-	const tabCon_t tabCon,
-	const unsigned char scale,
-	const char *string
-);
+/* Functions */
+const char *errors_string(enum errors error);
 
 #endif

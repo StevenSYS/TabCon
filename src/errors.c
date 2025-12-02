@@ -22,18 +22,15 @@
 	SOFTWARE.
 */
 
-#ifndef __TABCONTOPPM__
-#define __TABCONTOPPM__
-
-#include <tabCon.h>
 
 #include "errors.h"
 
-enum errors tabConToPPM(
-	const char *filename,
-	const tabCon_t tabCon,
-	const unsigned char scale,
-	const char *string
-);
-
-#endif
+const char *errors_string(enum errors error) {
+	switch (error) {
+		case ERROR_NONE:			return "No errors";
+		case ERROR_EXTERNAL:			return "External error";
+		case ERROR_IMAGE_NULL:			return "Image is NULL";
+		case ERROR_HASH_STRING_LONG:		return "Hash string is too long";
+		default:				return "Unknown error";
+	}
+}

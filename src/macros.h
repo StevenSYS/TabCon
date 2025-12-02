@@ -22,18 +22,32 @@
 	SOFTWARE.
 */
 
-#ifndef __TABCONTOPPM__
-#define __TABCONTOPPM__
-
-#include <tabCon.h>
-
-#include "errors.h"
-
-enum errors tabConToPPM(
-	const char *filename,
-	const tabCon_t tabCon,
-	const unsigned char scale,
-	const char *string
-);
-
+#ifndef __MACROS__
+#define __MACROS__
+	#include <stdio.h>
+	
+	#include "errors.h"
+	
+	#define PRINT_ERROR(_error) \
+		if (_error) { \
+			if (_error != ERROR_EXTERNAL) { \
+				fprintf( \
+					stderr, \
+					"ERROR: %s\n", \
+					errors_string(_error) \
+				); \
+			} \
+		}
+	
+	#define PRINT_ERROR_RET(_ret, _error) \
+		if (_error) { \
+			if (_error != ERROR_EXTERNAL) { \
+				fprintf( \
+					stderr, \
+					"ERROR: %s\n", \
+					errors_string(_error) \
+				); \
+			} \
+			return _ret; \
+		}
 #endif

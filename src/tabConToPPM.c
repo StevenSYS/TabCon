@@ -25,9 +25,10 @@
 #include <stdio.h>
 #include <tabCon.h>
 
+#include "errors.h"
 #include "progInfo.h"
 
-char tabConToPPM(
+enum errors tabConToPPM(
 	const char *filename,
 	const tabCon_t tabCon,
 	const unsigned char scale,
@@ -41,8 +42,8 @@ char tabConToPPM(
 	FILE *file = fopen(filename, "wb");
 	
 	if (file == NULL) {
-		perror("ERROR: Failed to open PPM file (wb Mode)");
-		return 1;
+		perror("ERROR");
+		return ERROR_IMAGE_NULL;
 	}
 	
 	fprintf(file, "P6\n");
@@ -78,5 +79,5 @@ char tabConToPPM(
 			}
 		}
 	}
-	return 0;
+	return ERROR_NONE;
 }

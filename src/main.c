@@ -22,17 +22,18 @@
 	SOFTWARE.
 */
 
+#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
 #include <tabCon.h>
 
-#include "tabConToPPM.h"
+#include "macros.h"
 #include "progInfo.h"
+#include "tabConToPPM.h"
 
 static char customFileName = 0;
-static char filename[LENGTH_FILENAME];
+static char filename[LENGTH_FILENAME] = { 0 };
 static char hashString[LENGTH_HASHSTRING] = { 0 };
 static char scale = DEFAULT_SCALE;
 
@@ -47,16 +48,14 @@ static tabCon_t tabCon;
 		_src[sizeof(_src) - 1] = 0;
 #endif
 
-static inline char loadArgs(int argc, char *argv[]) {
+static inline enum errors loadArgs(int argc, char *argv[]) {
 	char randomChar[2];
 	unsigned char j;
 	int i;
 	
-	for (i = 0; i < argc; i++) {
+	for (i = 1; i < argc; i++) {
 		if (argv[i] != NULL) {
 			switch (i) {
-				case 0:
-					break;
 				case 1:
 					if (strcmp(argv[i], "STRINGNAME") != 0) {
 						if (strlen(argv[i]) < LENGTH_FILENAME) {
@@ -107,8 +106,7 @@ static inline char loadArgs(int argc, char *argv[]) {
 	}
 	
 	if (strlen(hashString) > LENGTH_HASHSTRING) {
-		fprintf(stderr, "ERROR: Hash string is too long\n");
-		return 1;
+		return ERROR_HASH_STRING_LONG;
 	}
 	
 	if (!customFileName) {
@@ -124,20 +122,21 @@ static inline char loadArgs(int argc, char *argv[]) {
 		".ppm",
 		LENGTH_FILENAME
 	);
-	return 0;
+	return ERROR_NONE;
 }
 
 int main(int argc, char *argv[]) {
 	unsigned char i;
+	
+	enum errors ret = ERROR_NONE;
 	
 	printf(PROGRAM_NAME " v" PROGRAM_VERSION "\n");
 	printf("Created by StevenSYS - 2025\n");
 	
 	printf("- Loading arguments\n");
 	
-	if (loadArgs(argc, argv)) {
-		return 1;
-	}
+	ret = loadArgs(argc, argv);
+	PRINT_ERROR_RET(1, ret);
 	
 	printf("- Loaded arguments\n");
 	
@@ -164,14 +163,13 @@ int main(int argc, char *argv[]) {
 	
 	printf("- Making PPM file\n");
 	
-	if (tabConToPPM(
+	ret = tabConToPPM(
 		filename,
 		tabCon,
 		scale,
 		hashString
-	)) {
-		return 1;
-	}
+	);
+	PRINT_ERROR_RET(1, ret);
 	
 	printf("- Made PPM file\n");
 	return 0;
