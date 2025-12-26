@@ -165,7 +165,7 @@ int main(int argc, char *argv[]) {
 	
 	ret = tabConToPPM(
 		filename,
-		tabCon,
+		&tabCon,
 		scale,
 		hashString
 	);

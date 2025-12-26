@@ -30,7 +30,7 @@
 
 enum errors tabConToPPM(
 	const char *filename,
-	const tabCon_t tabCon,
+	const tabCon_t *tabCon,
 	const unsigned char scale,
 	const char *string
 ) {
@@ -64,9 +64,9 @@ enum errors tabConToPPM(
 				for (x2 = 0; x2 < scale; x2++) {
 					for (i = 0; i < 3; i++) {
 						pixel = (
-							tabCon.data[
+							tabCon->data[
 								TABCON_POSITION(x, y, TABCON_MIRRORWIDTH)
-							] ? tabCon.color[i] : 0xFF
+							] ? tabCon->color[i] : 0xFF
 						);
 						fwrite(
 							&pixel,

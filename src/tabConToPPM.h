@@ -31,7 +31,7 @@
 
 enum errors tabConToPPM(
 	const char *filename,
-	const tabCon_t tabCon,
+	const tabCon_t *tabCon,
 	const unsigned char scale,
 	const char *string
 );
