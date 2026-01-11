@@ -1,10 +1,12 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.14)
+
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+set(CMAKE_BUILD_RPATH_USE_ORIGIN TRUE)
 
 project(TabConPPM LANGUAGES C VERSION 1.1)
 
 option(BUILD_FOR_DOS "Build ${PROJECT_NAME} for DOS using DJGPP" OFF)
 option(BUILD_SHARED_LIBS "Build the libraries as shared libraries" OFF)
-option(BUILD_ONLY_LIBRARY "Build only libTabCon" OFF)
 option(BUILD_FOR_I586 "Build ${PROJECT_NAME} for i586 (Intel Pentium) or higher" OFF)
 # Windows Compiler Options
 option(BUILD_USING_MSVCRT20 "Build ${PROJECT_NAME} using msvcrt20 (Windows Compiler Only)" OFF)
@@ -41,18 +43,17 @@ file(GLOB SOURCE_FILES "src/*.c")
 
 add_subdirectory(src/libTabCon)
 
-include_directories(${TABCON_INCLUDE_DIRS})
+include_directories(${LIBTABCON_INCLUDE_DIRS})
 
-if(NOT BUILD_ONLY_LIBRARY)
-	
-	configure_file(src/progInfo.h.in ${CMAKE_CURRENT_SOURCE_DIR}/src/progInfo.h @ONLY)
-	
-	add_executable(${PROJECT_NAME} ${SOURCE_FILES})
-	target_link_libraries(${PROJECT_NAME} TabCon)
-	if(BUILD_FOR_DOS)
-		set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "TABCNPPM")
-		set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".exe")
-	endif()
-	set_property(TARGET ${PROJECT_NAME} PROPERTY BUILD_RPATH ".")
-	target_include_directories(${PROJECT_NAME} PRIVATE src)
+configure_file(src/progInfo.h.in ${CMAKE_CURRENT_SOURCE_DIR}/src/progInfo.h @ONLY)
+
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+target_link_libraries(${PROJECT_NAME} TabCon)
+if(BUILD_FOR_DOS)
+	set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "TABCNPPM")
+	set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".exe")
 endif()
+set_property(TARGET ${PROJECT_NAME} PROPERTY BUILD_RPATH ".")
+target_include_directories(${PROJECT_NAME} PRIVATE src)
+
+install(TARGETS ${PROJECT_NAME} DESTINATION bin)
