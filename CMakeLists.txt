@@ -2,6 +2,12 @@ cmake_minimum_required(VERSION 3.11)
 
 project(TabCon LANGUAGES C VERSION 1.1)
 
+set(
+	TABCON_INCLUDE_DIRS
+	"${CMAKE_CURRENT_SOURCE_DIR}/src"
+	PARENT_SCOPE
+)
+
 option(BUILD_SHARED_LIBS "Build the libraries as shared libraries" ON)
 option(BUILD_FOR_I586 "Build ${PROJECT_NAME} for i586 (Intel Pentium) or higher" OFF)
 # Windows Compiler Options
