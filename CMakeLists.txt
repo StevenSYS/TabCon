@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.11)
 project(TabCon LANGUAGES C VERSION 1.1)
 
 set(
-	TABCON_INCLUDE_DIRS
+	LIBTABCON_INCLUDE_DIRS
 	"${CMAKE_CURRENT_SOURCE_DIR}/src"
 	PARENT_SCOPE
 )
@@ -27,7 +27,6 @@ if(BUILD_FOR_I586)
 endif()
 
 if(WIN32)
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DMISSING_L_FUNCS")
 	if(BUILD_USING_MSVCRT20)
 		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mcrtdll=msvcrt20")
 	endif()
@@ -37,14 +36,24 @@ endif()
 
 add_subdirectory(src/submodules)
 
-file(GLOB SOURCE_FILES "src/*.c")
+file(GLOB LIBTABCON_SOURCE_FILES "src/*.c")
+file(GLOB LIBTABCON_HEADER_FILES "src/*.h")
 
 include_directories("src/submodules")
 
-add_library(${PROJECT_NAME} ${SOURCE_FILES})
+add_library(${PROJECT_NAME} ${LIBTABCON_SOURCE_FILES})
 target_link_libraries(
 	${PROJECT_NAME}
 	SHA1
 )
-set_property(TARGET ${PROJECT_NAME} PROPERTY BUILD_RPATH ".")
 target_include_directories(${PROJECT_NAME} PRIVATE src)
+set_target_properties(
+	${PROJECT_NAME} PROPERTIES
+	PUBLIC_HEADER "${LIBTABCON_HEADER_FILES}"
+)
+
+install(
+	TARGETS ${PROJECT_NAME}
+	LIBRARY DESTINATION "lib"
+	PUBLIC_HEADER DESTINATION "include"
+)
