@@ -39,12 +39,9 @@ endif()
 
 file(GLOB SOURCE_FILES "src/*.c")
 
-include_directories(
-	"src/submodules"
-	"src/libTabCon"
-)
-
 add_subdirectory(src/libTabCon)
+
+include_directories(${TABCON_INCLUDE_DIRS})
 
 if(NOT BUILD_ONLY_LIBRARY)
 	

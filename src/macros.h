@@ -1,7 +1,7 @@
 /*
 	MIT License
 	
-	Copyright (c) 2025 StevenSYS
+	Copyright (c) 2025-2026 StevenSYS
 	
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files (the "Software"), to deal
