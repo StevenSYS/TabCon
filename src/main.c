@@ -131,7 +131,7 @@ int main(int argc, char *argv[]) {
 	enum errors ret = ERROR_NONE;
 	
 	printf(PROGRAM_NAME " v" PROGRAM_VERSION "\n");
-	printf("Created by StevenSYS - 2025\n");
+	printf("Created by StevenSYS - 2025-2026\n");
 	
 	printf("- Loading arguments\n");
 	
