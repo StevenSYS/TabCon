@@ -49,7 +49,6 @@ static tabCon_t tabCon;
 #endif
 
 static inline enum errors loadArgs(int argc, char *argv[]) {
-	char randomChar[2];
 	unsigned char j;
 	int i;
 	
@@ -96,12 +95,7 @@ static inline enum errors loadArgs(int argc, char *argv[]) {
 		srand(time(NULL));
 		
 		for (j = 0; j < 9; j++) {
-			snprintf(randomChar, 2, "%u", rand() % 9);
-			strlcat(
-				hashString,
-				randomChar,
-				LENGTH_HASHSTRING
-			);
+			hashString[j] = (rand() % 10) + '0';
 		}
 	}
 	
